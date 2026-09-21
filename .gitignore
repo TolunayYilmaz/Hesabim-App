@@ -1,0 +1,29 @@
+# Node
+node_modules/
+.next/
+out/
+next-env.d.ts.swp
+
+# Vercel (lokal deploy onizleme)
+.vercel/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Env
+.env
+.env.local
+.env*.local
+
+# Supabase / API keys (asla commit etme)
+supabase_service_key.json
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
