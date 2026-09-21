@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { DataTable, type DataTableColumn } from "@/components/data-table";
-import { api } from "@/lib/api";
+import { api, DEMO_ACCOUNT_EMAIL, getAuthUser } from "@/lib/api";
 
 interface ProductRow {
   id: string;
@@ -75,16 +75,19 @@ const MOCK_PRODUCTS: ProductRow[] = [
 
 export default function ProductsPage() {
   const router = useRouter();
-  const [rows, setRows] = useState<ProductRow[]>(MOCK_PRODUCTS);
+  const [rows, setRows] = useState<ProductRow[]>([]);
 
-  // Gercek veri varsa onu goster, bos ise mock veri tabloda kalsin.
+  // Mock veri yalnizca demo hesapta gosterilir; diger hesaplar gercek veriyi gorur.
   useEffect(() => {
+    const isDemo =
+      getAuthUser()?.email?.toLowerCase() === DEMO_ACCOUNT_EMAIL.toLowerCase();
     api<ProductRow[]>("/products")
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) setRows(data);
+        else if (isDemo) setRows(MOCK_PRODUCTS);
       })
       .catch(() => {
-        /* API hazir degilse mock veri gozukmeye devam eder */
+        if (isDemo) setRows(MOCK_PRODUCTS);
       });
   }, []);
 

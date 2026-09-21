@@ -19,6 +19,21 @@ export interface AuthUser {
 
 const TOKEN_KEY = "bh_token";
 const COMPANY_KEY = "bh_company";
+const USER_KEY = "bh_user";
+
+// Mock (demolar) verilerin yalnizca bu hesapla gorunmesi icin kullanilir.
+export const DEMO_ACCOUNT_EMAIL = "tolunay894@gmail.com";
+
+export function getAuthUser(): AuthUser | null {
+  if (typeof window === "undefined") return null;
+  const raw = window.localStorage.getItem(USER_KEY);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as AuthUser;
+  } catch {
+    return null;
+  }
+}
 
 export function getToken(): string | null {
   if (typeof window === "undefined") return null;

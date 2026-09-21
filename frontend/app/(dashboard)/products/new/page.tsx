@@ -31,7 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PageHeader } from "@/components/dashboard/page-header";
-import { api, ApiError } from "@/lib/api";
+import { api, ApiError, DEMO_ACCOUNT_EMAIL, getAuthUser } from "@/lib/api";
 
 const CATEGORY_OPTIONS = ["Tohum", "Gübre", "Zirai İlaç"];
 
@@ -95,7 +95,11 @@ export default function NewProductPage() {
   const [excelName, setExcelName] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const suggestions = quick.trim()
+  const isDemo =
+    getAuthUser()?.email?.toLowerCase() === DEMO_ACCOUNT_EMAIL.toLowerCase();
+
+  // Hizli arama katalogu yalnizca demo hesaba gosterilir.
+  const suggestions = isDemo && quick.trim()
     ? CATALOG.filter(
         (item) =>
           item.name.toLowerCase().includes(quick.trim().toLowerCase()) ||
