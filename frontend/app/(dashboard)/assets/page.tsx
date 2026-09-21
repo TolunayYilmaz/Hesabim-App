@@ -12,7 +12,7 @@ export default function AssetsPage() {
         title="Demirbaşlar"
         description="Firma demirbaşları ve sabit varlıkları."
         action={
-          <Button asChild>
+          <Button asChild className="bg-[#6ee7b7] font-semibold text-gray-800 shadow-sm hover:bg-[#34d399]">
             <Link href="/assets/new">
               <Plus className="h-4 w-4" />
               Yeni Demirbaş

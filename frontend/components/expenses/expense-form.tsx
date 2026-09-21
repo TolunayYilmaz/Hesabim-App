@@ -237,6 +237,7 @@ export function ExpenseForm() {
             variant="outline"
             onClick={() => router.push("/expenses")}
             disabled={saving}
+            className="bg-[#fde047] font-semibold text-gray-800 shadow-sm hover:bg-[#facc15]"
           >
             <Archive className="h-4 w-4" />
             Arşiv Belgesi Yükle

@@ -25,6 +25,7 @@ from app.schemas.warehouse import (
 from app.schemas.product import (
     ProductCreate,
     ProductRead,
+    ProductResponse,
     ProductUpdate,
 )
 from app.schemas.stock import (
@@ -121,6 +122,7 @@ __all__ = [
     "WarehouseUpdate",
     "ProductCreate",
     "ProductRead",
+    "ProductResponse",
     "ProductUpdate",
     "StockTransactionCreate",
     "StockTransactionRead",

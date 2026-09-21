@@ -35,9 +35,13 @@ class ProductUpdate(BaseModel):
     is_active: Optional[bool] = None
 
 
-class ProductRead(ProductBase, ProductPricing, ORMModel):
+class ProductResponse(ProductBase, ProductPricing, ORMModel):
     id: UUID4
     company_id: UUID4
     is_active: bool
     created_at: datetime
     updated_at: Optional[datetime] = None
+
+
+# Eski ad (geri uyumluluk icin) — yeni ad: ProductResponse
+ProductRead = ProductResponse

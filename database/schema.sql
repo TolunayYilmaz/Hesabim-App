@@ -94,21 +94,32 @@ create table if not exists public.identities (
   updated_at    timestamptz    not null default now()
 );
 
--- Mevcut veritabanlarinda (create table zaten calismissa) yeni kolonu ekler
-alter table public.identities add column if not exists bank_info text;
+-- Mevcut veritabanlarinda (create table zaten calismissa) yeni kolonu ekler.
+-- Tablo yoksa sessizce atlar -> bos veritabanlarinda 42P01 hata vermez.
+do $$
+begin
+  if exists (select 1 from pg_tables where schemaname = 'public' and tablename = 'identities') then
+    alter table public.identities add column if not exists bank_info text;
+  end if;
 
--- Gider/masraf tablosuna ek alanlar (mevcut veritabanlari icin idempotent)
-alter table public.expenses add column if not exists tax_rate        numeric(5,2)  not null default 0;
-alter table public.expenses add column if not exists payment_date   date;
-alter table public.expenses add column if not exists payment_status varchar(50)   not null default 'Odendi';
-alter table public.expenses add column if not exists description    text;
+  if exists (select 1 from pg_tables where schemaname = 'public' and tablename = 'expenses') then
+    alter table public.expenses add column if not exists tax_rate        numeric(5,2)  not null default 0;
+    alter table public.expenses add column if not exists payment_date   date;
+    alter table public.expenses add column if not exists payment_status varchar(50)   not null default 'Odendi';
+    alter table public.expenses add column if not exists description    text;
+  end if;
 
--- Belge baskligi kopya (snapshot) alanlari + kalem indirimi (idempotent)
-alter table public.documents     add column if not exists phone      varchar(50);
-alter table public.documents     add column if not exists tax_office varchar(255);
-alter table public.documents     add column if not exists tax_no     varchar(50);
-alter table public.documents     add column if not exists address    text;
-alter table public.document_items add column if not exists discount   numeric(18,2) not null default 0;
+  if exists (select 1 from pg_tables where schemaname = 'public' and tablename = 'documents') then
+    alter table public.documents     add column if not exists phone      varchar(50);
+    alter table public.documents     add column if not exists tax_office varchar(255);
+    alter table public.documents     add column if not exists tax_no     varchar(50);
+    alter table public.documents     add column if not exists address    text;
+  end if;
+
+  if exists (select 1 from pg_tables where schemaname = 'public' and tablename = 'document_items') then
+    alter table public.document_items add column if not exists discount   numeric(18,2) not null default 0;
+  end if;
+end $$;
 
 -- ============================================================================
 -- 5) DEPOLAR
@@ -503,7 +514,9 @@ grant all on all tables    in schema public to anon;
 grant all on all functions in schema public to authenticated, service_role;
 
 -- Supabase'in auth.users yansisi (OLMADAN dahi calisir); varsa user row birebir ozel kullanici olur.
-alter table public.users enable replica identity full;
+-- Opsiyonel: Supabase Realtime icin full-row görüntüsü. Bizim uygulama kullanmaz;
+-- SQL Editor'un ayrıştırıcısı bu yapıyı hatali buluyor (42601). Gerekirse calistir:
+-- alter table public.users replica identity full;
 
 -- ============================================================================
 -- 19) DEMIRBASLAR (Assets)

@@ -167,7 +167,10 @@ export function DataTable<T>({
         <div className="flex flex-1 items-center gap-2">
           {toolbar}
           {onAdd && (
-            <Button onClick={onAdd} className="ml-auto gap-1.5">
+            <Button
+              onClick={onAdd}
+              className="ml-auto gap-1.5 bg-[#6ee7b7] font-semibold text-gray-800 shadow-sm hover:bg-[#34d399]"
+            >
               <Plus className="h-4 w-4" />
               {addLabel}
             </Button>
@@ -178,30 +181,39 @@ export function DataTable<T>({
       {/* Tablo */}
       <Table>
         <TableHeader>
-          <TableRow className="hover:bg-transparent">
+          <TableRow className="bg-[#4b5563] hover:bg-transparent">
             {columns.map((col, index) => (
               <TableHead
                 key={String(col.accessorKey ?? index)}
-                className={cn(alignClass(col.align), col.headerClassName)}
+                className={cn(
+                  "font-bold text-white",
+                  alignClass(col.align),
+                  col.headerClassName,
+                )}
               >
                 {col.header}
               </TableHead>
             ))}
             {hasActionColumn && (
-              <TableHead className="w-[120px] text-right">İşlem</TableHead>
+              <TableHead className="w-[120px] text-right font-bold text-white">
+                İşlem
+              </TableHead>
             )}
           </TableRow>
         </TableHeader>
         <TableBody>
           {isLoading && !rows.length ? (
-            <TableRow className="hover:bg-transparent">
+            <TableRow className="bg-white hover:bg-transparent">
               <TableCell colSpan={colSpan} className="h-32 text-center">
                 <Loader2 className="mx-auto h-6 w-6 animate-spin text-muted-foreground" />
               </TableCell>
             </TableRow>
           ) : rows.length ? (
             rows.map((row) => (
-              <TableRow key={getRowId(row)}>
+              <TableRow
+                key={getRowId(row)}
+                className="border-b-white bg-[#a5f3fc] text-gray-800 hover:bg-[#67e8f9]"
+              >
                 {columns.map((col, index) => {
                   const key = String(col.accessorKey ?? index);
                   const raw =
@@ -245,7 +257,7 @@ export function DataTable<T>({
               </TableRow>
             ))
           ) : (
-            <TableRow className="hover:bg-transparent">
+            <TableRow className="bg-white hover:bg-transparent">
               <TableCell
                 colSpan={colSpan}
                 className="h-32 text-center text-muted-foreground"

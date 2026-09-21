@@ -420,11 +420,21 @@ export default function ReportsPage() {
               )}
               Raporu Hazırla
             </Button>
-            <Button variant="outline" onClick={excelIer} disabled={loading}>
+            <Button
+              variant="outline"
+              onClick={excelIer}
+              disabled={loading}
+              className="bg-[#fde047] font-semibold text-gray-800 shadow-sm hover:bg-[#facc15]"
+            >
               <FileSpreadsheet className="h-4 w-4" />
               Excel Olarak İndir
             </Button>
-            <Button variant="outline" onClick={() => window.print()} disabled={loading}>
+            <Button
+              variant="outline"
+              onClick={() => window.print()}
+              disabled={loading}
+              className="bg-[#fde047] font-semibold text-gray-800 shadow-sm hover:bg-[#facc15]"
+            >
               <Printer className="h-4 w-4" />
               PDF Olarak İndir
             </Button>

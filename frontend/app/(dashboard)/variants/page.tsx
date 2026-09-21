@@ -12,7 +12,7 @@ export default function VariantsPage() {
         title="Varyantlar"
         description="Ürün varyantlarını (renk, ebat, beden vb.) yönetin."
         action={
-          <Button asChild>
+          <Button asChild className="bg-[#6ee7b7] font-semibold text-gray-800 shadow-sm hover:bg-[#34d399]">
             <Link href="/variants/new">
               <Plus className="h-4 w-4" />
               Varyant Ekle
