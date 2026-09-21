@@ -28,7 +28,7 @@ def _compute_total(items: list[dict]) -> Decimal:
 router = APIRouter(prefix="/documents", tags=["Belgeler"])
 
 
-@router.get("/", response_model=list[DocumentRead])
+@router.get("", response_model=list[DocumentRead])
 def list_documents(
     doc_type: Optional[str] = None,
     status_filter: Optional[str] = Query(default=None, alias="status"),
@@ -45,7 +45,7 @@ def list_documents(
     return [DocumentRead.model_validate(r) for r in rows]
 
 
-@router.post("/", response_model=DocumentRead, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=DocumentRead, status_code=status.HTTP_201_CREATED)
 def create_document(
     payload: DocumentCreate,
     company_id: str = Depends(get_company_id),

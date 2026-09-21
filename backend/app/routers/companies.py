@@ -30,7 +30,7 @@ def my_companies(
     return [CompanyRead.model_validate(c) for c in companies]
 
 
-@router.post("/", response_model=CompanyRead, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=CompanyRead, status_code=status.HTTP_201_CREATED)
 def create_company(
     payload: CompanyCreate,
     current=Depends(get_current_user),

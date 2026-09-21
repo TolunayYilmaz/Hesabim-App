@@ -16,7 +16,7 @@ def _row_to_settings(row: dict) -> FirmSettingsRead:
     )
 
 
-@router.get("/", response_model=FirmSettingsRead)
+@router.get("", response_model=FirmSettingsRead)
 def get_settings(
     company_id: str = Depends(get_company_id),
     client=Depends(get_user_client_dep),
@@ -35,7 +35,7 @@ def get_settings(
     return _row_to_settings(row)
 
 
-@router.put("/", response_model=FirmSettingsRead)
+@router.put("", response_model=FirmSettingsRead)
 def update_settings(
     payload: FirmSettingsUpdate,
     company_id: str = Depends(get_company_id),

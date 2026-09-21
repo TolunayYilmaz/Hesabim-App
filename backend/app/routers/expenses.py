@@ -32,7 +32,7 @@ def _enrich_account_names(client, rows: list[dict]) -> list[dict]:
     return rows
 
 
-@router.get("/", response_model=list[ExpenseResponse])
+@router.get("", response_model=list[ExpenseResponse])
 def list_expenses(
     category: Optional[str] = None,
     is_recurring: Optional[bool] = None,
@@ -60,7 +60,7 @@ def list_expenses(
     ]
 
 
-@router.post("/", response_model=ExpenseResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=ExpenseResponse, status_code=status.HTTP_201_CREATED)
 def create_expense(
     payload: ExpenseCreate,
     company_id: str = Depends(get_company_id),
